@@ -9,7 +9,7 @@ const isDev = (): boolean => !process.env.NODE_ENV || process.env.NODE_ENV === "
  * Create an Axios instance for the api.
  */
 const createAPI = (): AxiosInstance => {
-  return axios.create({ baseURL: process.env.REACT_APP_BE_URL });
+  return axios.create({ baseURL: process.env.REACT_APP_BASEURL });
 };
 
 /**

@@ -1,15 +1,19 @@
+import env from '../../fixtures/env.json'
 describe('User Login', () => {
     it('should successfully log in', () => {
-        const email = 'admin@example.com';
-        const password = '1234';
 
-        cy.visit('http://localhost:3000/login');
+        cy.visit(env.home_page);
 
-        cy.get('input[placeholder="Enter username"]').type(email);
-        cy.get('input[placeholder="Enter password"]').type(password);
+        cy.url().should('include', env.home_page + '/login')
+
+        cy.get('input[placeholder="Enter username"]').type(env.email);
+        cy.get('input[placeholder="Enter password"]').type(env.password);
 
         cy.contains('Sign in').click();
 
-        cy.url().should('include', 'http://localhost:3000');
+        console.log(env.home_page)
+
+        cy.url().should('include', env.home_page);
+
     });
 });
