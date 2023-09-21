@@ -7,18 +7,17 @@ const UserService = {
     return data;
   },
 
-  getUserFromGroup: async (groupId : string, p = 0, i = 5)  => {
+  getUserFromGroup: async (groupId: string, p = 0, i = 5) => {
     return api.get(`/user/group/${groupId}?p=${p}&i=${i}`)
   },
 
-  updateUser: (user: User) => {
+  updateUser: async (user: User) => {
     return api.put(`/user/${user.id}`, user);
   },
 
-  addUser: (user: User) => {
-    return api.post('/user/registerUser', user).then((res) => {
-      return res.data;
-    });
+  addUser: async (user: User) => {
+    const res = await api.post('/user/registerUser', user);
+    return res.data;
   },
 
   getAllUsers: () => {
