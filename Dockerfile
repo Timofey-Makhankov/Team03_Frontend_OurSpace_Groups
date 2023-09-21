@@ -18,6 +18,6 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 
 HEALTHCHECK --interval=3s --timeout=5s \
-    CMD ping -c 1 localhost:8080
+    CMD ping -c 1 localhost:80
 
 CMD ["nginx", "-g", "daemon off;"]
