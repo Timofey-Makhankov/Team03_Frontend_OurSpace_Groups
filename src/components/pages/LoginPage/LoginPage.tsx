@@ -9,9 +9,10 @@ import {
 import React, { useContext } from 'react';
 
 import { Form, Formik } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import * as Yup from 'yup';
 import ActiveUserContext from '../../../Contexts/ActiveUserContext';
+import { AxiosError } from "axios";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string(),
@@ -36,15 +37,14 @@ const Login = () => {
 
         navigate('/');
       })
-      .catch((error) => {
+      .catch((error: AxiosError ) => {
         if (
-          (typeof error.response !== 'undefined' &&
-            error.response.status === 401) ||
-          error.response.status === 403
-        ) {
+          (typeof error.response !== 'undefined' && ((error.response.status === 401) || error.response.status === 403))) {
           alert('invalid login');
+          console.log("Error message: ", error)
         } else {
           alert('login Error');
+          console.log("Error message: ", error)
         }
       });
   };
