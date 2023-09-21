@@ -39,9 +39,23 @@ jobs:
           command: yarn cypress run --spec ./cypress/e2e/integration/loginTest.cy.js
           start: yarn start
           browser: firefox
+
+  test-chrome:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          command: yarn cypress run --spec ./cypress/e2e/integration/loginTest.cy.js
+          start: yarn start
+          browser: chrome
   
   deploy:
-    needs: test
+    needs: [test-firefox, test-chrome]
     runs-on: ubuntu-latest
     steps:
       - name: Run Start Script
