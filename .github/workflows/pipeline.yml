@@ -64,3 +64,16 @@ jobs:
         with:
           command: npx cypress run --spec ./cypress/e2e/integration/loginTest.cy.js
           browser: chrome
+
+  test-edge:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          command: npx cypress run --spec ./cypress/e2e/integration/loginTest.cy.js
+          browser: edge
