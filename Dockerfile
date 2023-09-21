@@ -20,6 +20,6 @@ RUN apk --no-cache add curl
 EXPOSE 80
 
 HEALTHCHECK --interval=3s --timeout=5s \
-    CMD ping -c 1 localhost:80
+    CMD curl -fI localhost:80 || exit 1
 
 CMD ["nginx", "-g", "daemon off;"]
