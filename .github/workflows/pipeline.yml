@@ -26,36 +26,8 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/frontend-application:latest
   
-  test-firefox:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
-        with:
-          command: yarn cypress run --spec ./cypress/e2e/integration/loginTest.cy.js
-          start: yarn start
-          browser: firefox
-
-  test-chrome:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
-        with:
-          command: yarn cypress run --spec ./cypress/e2e/integration/loginTest.cy.js
-          start: yarn start
-          browser: chrome
-  
   deploy:
-    needs: [test-firefox, test-chrome]
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Run Start Script
@@ -66,3 +38,29 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: 22
           script: ./start.sh
+
+  test-firefox:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          command: yarn cypress run --spec ./cypress/e2e/integration/loginTest.cy.js
+          browser: firefox
+
+  test-chrome:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          command: npx cypress run --spec ./cypress/e2e/integration/loginTest.cy.js
+          browser: chrome
